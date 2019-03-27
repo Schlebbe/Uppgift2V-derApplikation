@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider, createTheme, Arwes, Button, withStyles } from 'arwes';
 import logo from './logo.svg';
 import './App.css';
+import getData from '../src/Api.js';
+
+// const App = () => (
+//   <ThemeProvider theme={createTheme()}>
+//     <Arwes>
+//       <div style={{ padding: 20 }}>
+//         <Button>My Button</Button>
+//       </div>
+//     </Arwes>
+//   </ThemeProvider>
+// );
+
+async function fetchData(test) {
+  let data = await getData(test);
+  return data;
+}
+// fetchData();
+// getData(59.33, 18);
 
 class App extends Component {
+  getLocations(test){
+    let data = fetchData(test);
+    console.log(data);
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        Sök:
+        <input id="searchInput">1</input>
+        <button id="searchButton" onClick={this.getLocations}>Sök</button>
       </div>
     );
   }
