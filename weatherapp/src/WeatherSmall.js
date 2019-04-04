@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 export default class WeatherSmall extends Component {
-
     render() {
         return (
             <React.Fragment>

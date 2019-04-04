@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
-import getData from '../src/Api.js';
+import getData, { getDataCoords } from '../src/Api.js';
 import SearchBar from './SearchBar';
 import WeatherContainer from './WeatherContainer';
 
-async function fetchData(test) {
-    let data = await getData(test);
-    return data;
-}
-// fetchData();
-// getData(59.33, 18);
 
 class App extends Component {
     constructor(props) {
@@ -23,20 +17,35 @@ class App extends Component {
 
         this.handleClick = this.handleClick.bind(this);
     }
-    
-    componentDidMount() { //Sätt state data för stockholm (eller för geolocation)
-        this.handleClick(null, "stockholm")
+
+    async fetchData(test) {
+        let data = await getData(test);
+        return data;
     }
 
-    async handleClick(e, location) {
-        let data;
+    async fetchDataCoords(lat, long) {
+        let data = await getDataCoords(lat, long);
 
-        if (typeof location !== "undefined") {
-            data = await fetchData(location);
-        } else {
-            e.preventDefault();
-            data = await fetchData(e.target.searchInput.value);
+        this.setState({
+            data: data
+        })
+
+        return data;
+    }
+
+    componentDidMount() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.fetchDataCoords(position.coords.latitude, position.coords.longitude)
+            });
         }
+    }
+
+    async handleClick(e) {
+        e.preventDefault();
+        let value;
+        typeof e.target.searchInput !== "undefined" ? value = e.target.searchInput.value : value = e.target.value; 
+        let data = await this.fetchData(value);
 
         this.setState({
             data: data
@@ -47,7 +56,7 @@ class App extends Component {
         return (
             <React.Fragment>
                 <SearchBar handleClick={this.handleClick} />
-                <WeatherContainer data={this.state.data} />
+                <WeatherContainer data={this.state.data} handleChange={this.handleClick} />
             </React.Fragment>
         );
     }

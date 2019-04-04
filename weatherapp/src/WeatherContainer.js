@@ -10,11 +10,18 @@ export default class WeatherContainer extends Component {
 
         this.state = {
             detailedView: false,
-            data: {}
+            data: {},
+            favoriteList: []
         }
 
         this.handleClick = this.handleClick.bind(this);
         this.handleClickFavorite = this.handleClickFavorite.bind(this);
+        this.getFavorites = this.getFavorites.bind(this);
+        this.setFavorites = this.setFavorites.bind(this);
+    }
+
+    componentDidMount() {
+        this.getFavorites();
     }
 
     componentDidUpdate(prevProps) {
@@ -23,7 +30,33 @@ export default class WeatherContainer extends Component {
                 data: this.props.data
             })
         }
-        console.log(this.props.data.forecast);
+    }
+
+    getFavorites = () => {
+        let favoritelist = JSON.parse(localStorage.getItem("favoriteList"));
+        if (favoritelist) {
+            this.setState({
+                favoriteList: favoritelist
+            })
+        }
+    }
+
+    setFavorites = () => {
+        const favoriteList = this.state.favoriteList.slice();
+        localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
+    }
+
+    handleClickFavorite() {
+        this.getFavorites()
+        let newList = this.state.favoriteList.slice();
+
+        if (newList.indexOf(this.state.data.location.name) === -1) {
+            newList.push(this.state.data.location.name)
+            this.setState({
+                favoriteList: newList
+            }, () => this.setFavorites()
+            )
+        }
     }
 
     handleClick() {
@@ -32,17 +65,21 @@ export default class WeatherContainer extends Component {
             detailedView: newState
         })
     }
-
-    handleClickFavorite() {
-        document.cookie = `favorite=${this.state.data.location.name}; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
-        var x = document.cookie;
-        console.log(x);
-    }
-
+    
     render() {
+        let favorites;
+        if (this.state.favoriteList) {
+            favorites = this.state.favoriteList.map((item) => {
+                return <option key={item} value={item}>{item}</option>
+            })
+        }
+
         return (
             <React.Fragment>
                 <button className="btn btn-success" onClick={this.handleClickFavorite}>Favorit</button>
+                <select onChange={this.props.handleChange}>
+                    {favorites}
+                </select>
                 {this.state.detailedView === true ?
                     <WeatherDetailed data={this.state.data} handleClick={this.handleClick} /> :
                     <WeatherSmall data={this.state.data} handleClick={this.handleClick} />
