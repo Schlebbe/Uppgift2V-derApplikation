@@ -1,42 +1,55 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider, createTheme, Arwes, Button, withStyles } from 'arwes';
 import logo from './logo.svg';
 import './App.css';
 import getData from '../src/Api.js';
-
-// const App = () => (
-//   <ThemeProvider theme={createTheme()}>
-//     <Arwes>
-//       <div style={{ padding: 20 }}>
-//         <Button>My Button</Button>
-//       </div>
-//     </Arwes>
-//   </ThemeProvider>
-// );
+import SearchBar from './SearchBar';
 
 async function fetchData(test) {
-  let data = await getData(test);
-  return data;
+    let data = await getData(test);
+    return data;
 }
 // fetchData();
 // getData(59.33, 18);
 
 class App extends Component {
-  getLocations(test){
-    let data = fetchData(test);
-    console.log(data);
-  }
+    constructor(props) {
+        super(props)
 
-  render() {
-    return (
-      <div>
-        Sök:
-        <input id="searchInput">1</input>
-        <button id="searchButton" onClick={this.getLocations}>Sök</button>
-      </div>
-    );
-  }
+        this.state = {
+            data: []
+        }
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    componentDidMount() { //Sätt state data för stockholm (eller för geolocation)
+        this.handleClick(null, "stockholm")
+    }
+
+    async handleClick(e, location) {
+        let data;
+
+        if (typeof location !== "undefined") {
+            data = await fetchData(location);
+        } else {
+            e.preventDefault();
+            data = await fetchData(e.target.searchInput.value);
+        }
+
+        this.setState({
+            data: data
+        });
+        await console.log(this.state.data);
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <SearchBar handleClick={this.handleClick} />
+            </React.Fragment>
+        );
+    }
 }
 
 export default App;
