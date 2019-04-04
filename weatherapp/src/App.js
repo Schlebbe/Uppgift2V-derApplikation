@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import getData from '../src/Api.js';
 import SearchBar from './SearchBar';
+import WeatherInfo from './WeatherInfo';
 
 async function fetchData(test) {
     let data = await getData(test);
@@ -22,7 +23,7 @@ class App extends Component {
 
         this.handleClick = this.handleClick.bind(this);
     }
-
+    
     componentDidMount() { //Sätt state data för stockholm (eller för geolocation)
         this.handleClick(null, "stockholm")
     }
@@ -40,13 +41,13 @@ class App extends Component {
         this.setState({
             data: data
         });
-        await console.log(this.state.data);
     }
 
     render() {
         return (
             <React.Fragment>
                 <SearchBar handleClick={this.handleClick} />
+                <WeatherInfo data={this.state.data} />
             </React.Fragment>
         );
     }

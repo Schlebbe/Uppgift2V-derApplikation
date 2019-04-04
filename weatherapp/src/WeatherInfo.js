@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import WeatherSmall from './WeatherSmall';
 
 
 
@@ -9,15 +10,31 @@ export default class WeatherInfo extends Component {
         super(props)
 
         this.state = {
-
+            detailedView: false
         }
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        // console.log(this.props.data.location.name)
+        const newState = this.detailedView === true ? false : true;
+        this.setState({
+            detailedView: newState
+        })
     }
 
     render() {
-        return (
-            <div>
+        const detailedView = <div>mycket detaljer</div>
+        // const regularView = (<div>
+        //     {this.props.data.location.name}
+        // </div>)
 
-            </div>
+        return (
+            <React.Fragment>
+                {/* <button onClick={this.handleClick}>test</button> */}
+                {this.state.detailedView === true ? detailedView : <WeatherSmall data={this.props.data} handleClick={this.handleClick} />}
+            </React.Fragment>
         )
     }
 }
