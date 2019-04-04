@@ -14,7 +14,7 @@ export default class SearchBar extends Component {
             <React.Fragment>
                 <p>Sök:</p>
                 <form onSubmit={this.props.handleClick}>
-                    <input id="searchInput" placeholder="1"></input>
+                    <input id="searchInput" placeholder=""></input>
                     <button id="searchButton">Sök</button>
                 </form>
             </React.Fragment>
