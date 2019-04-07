@@ -12,17 +12,23 @@ export default class WeatherDetailed extends Component {
                 </tr>
             )
         })
-        
+
         let spacing = {
             width: "85%",
             margin: "0 auto",
             paddingLeft: "15%"
         }
 
+        let h2Spacing = {
+            paddingLeft: "12%",
+            margin: "6px 0 10px 0"
+        }
+
         return (
             <React.Fragment>
                 <button onClick={this.props.handleClick} className="btn btn-primary">Tillbaka</button>
                 <div style={spacing}>
+                    <h2 style={h2Spacing}>{this.props.data.location.name}</h2>
                     <table className="table">
                         <thead>
                             <tr>

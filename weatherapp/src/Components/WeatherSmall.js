@@ -36,7 +36,7 @@ export default class WeatherSmall extends Component {
                                 </div>
                                 <p>Temperatur: {this.props.data.current.temp_c}°</p>
                                 <p>Uppdaterad: {this.props.data.current.last_updated}</p>
-                                <button onClick={this.props.handleClick} className="btn btn-primary" >Visa</button>
+                                <button onClick={this.props.handleClick} className="btn btn-primary" >Visa prognos</button>
                             </div>
                         </div>
                     </div>
