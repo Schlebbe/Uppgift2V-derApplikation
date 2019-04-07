@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
 import getData, { getDataCoords } from '../src/Api.js';
-import SearchBar from './SearchBar';
-import WeatherContainer from './WeatherContainer';
+import SearchBar from './Components/SearchBar';
+import WeatherContainer from './Components/WeatherContainer';
 
 
 class App extends Component {
@@ -44,7 +44,7 @@ class App extends Component {
     async handleClick(e) {
         e.preventDefault();
         let value;
-        typeof e.target.searchInput !== "undefined" ? value = e.target.searchInput.value : value = e.target.value; 
+        typeof e.target.searchInput !== "undefined" ? value = e.target.searchInput.value : value = e.target.value;
         let data = await this.fetchData(value);
 
         this.setState({
@@ -53,11 +53,16 @@ class App extends Component {
     }
 
     render() {
+        let spacing = {
+            paddingLeft: "10%"
+        }
+
         return (
-            <React.Fragment>
+            <div className="container col-centered text-center">
+                <h2 style={spacing}>Weather App</h2>
                 <SearchBar handleClick={this.handleClick} />
                 <WeatherContainer data={this.state.data} handleChange={this.handleClick} />
-            </React.Fragment>
+            </div>
         );
     }
 }
