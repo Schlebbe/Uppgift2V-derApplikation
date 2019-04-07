@@ -27,7 +27,7 @@ export default class WeatherSmall extends Component {
 
         return (
             <React.Fragment>
-                {typeof this.props.data.location === 'undefined' ? typeof this.props.data.error !== "undefined" ? <p style={error}>Bad data, make sure you spelled correctly.</p> : "loading" :
+                {typeof this.props.data.location === 'undefined' ? typeof this.props.data.error !== "undefined" ? <p style={error}>Bad data, make sure you spelled correctly.</p> : "Loading..." :
                     <div style={spacing}>
                         <div className="mt-4" style={weatherStyle}>
                             <div style={innerWeatherStyle}>

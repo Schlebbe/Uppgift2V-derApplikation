@@ -76,7 +76,8 @@ export default class WeatherContainer extends Component {
 
         return (
             <div>
-                <select onChange={this.props.handleChange} className="browser-default custom-select col-sm-3">
+                <select onChange={this.props.handleChange} className="browser-default custom-select col-sm-3" onClick={this.handleClick2} id="favourites" >
+                    <option>Välj favorit</option>
                     {favourites}
                 </select>
                 <button className="btn btn-success" onClick={this.handleClickFavourite}>Favorit</button>

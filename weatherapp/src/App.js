@@ -44,12 +44,25 @@ class App extends Component {
     async handleClick(e) {
         e.preventDefault();
         let value;
-        typeof e.target.searchInput !== "undefined" ? value = e.target.searchInput.value : value = e.target.value;
-        let data = await this.fetchData(value);
+        let data;
+        let select = document.getElementById("favourites");
+        let searchInput = document.getElementById("searchInput");
 
-        this.setState({
-            data: data
-        });
+        typeof e.target.searchInput !== "undefined" ? value = e.target.searchInput.value : value = e.target.value;
+
+        if (value !== "Välj favorit") {
+            data = await this.fetchData(value);
+
+            if (value !== select.value) {
+                select.selectedIndex = 0;
+            } else {
+                searchInput.value = "";
+            }
+
+            this.setState({
+                data: data
+            });
+        }
     }
 
     render() {
